@@ -43,7 +43,7 @@ function render(now) {
     previous = now;
 
     renderer.setOptions({
-        cameraRotation: [ 3, (rotation * Math.PI) / 180, 0 ]
+        cameraRotation: [ (rotation * Math.PI) / 180, .5, 0 ]
     });
 
     renderer.render(context, now);
