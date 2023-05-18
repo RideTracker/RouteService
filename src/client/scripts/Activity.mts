@@ -39,11 +39,11 @@ let previous = performance.now();
 let rotation = 0;
 
 function render(now) {
-    rotation = (rotation + ((now - previous) / 1000 * 90)) % 360;
+    rotation = (rotation + ((now - previous) / 2000 * 90)) % 360;
     previous = now;
 
     renderer.setOptions({
-        cameraRotation: [ (rotation * Math.PI) / 180, .5, 0 ]
+        cameraRotation: [ 360 - ((rotation * Math.PI) / 180), .5, 0 ]
     });
 
     renderer.render(context, now);
