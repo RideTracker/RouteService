@@ -17,7 +17,7 @@ function copyFiles(srcDir, distDir, paths = []) {
             const ext = path.extname(entry.name).toLowerCase();
 
             // Copy HTML, CSS, and image files
-            if (!([".ts", ".tsx", ".scss", "tsconfig.json"]).includes(ext)) {
+            if (!([".ts", ".mts", ".tsx", ".scss", "tsconfig.json"]).includes(ext)) {
                 // Create the destination directory if it doesn't exist
                 if (!fs.existsSync(distDir)) {
                     for(let path of paths) {
