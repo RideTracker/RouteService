@@ -24,9 +24,9 @@ export async function onRequest(context) {
                 <canvas id="canvas"></canvas>
 
                 <script src="https://unpkg.com/gl-matrix@2.8.1/dist/gl-matrix-min.js"></script>
-                <script src="https://unpkg.com/routerenderer@0.9.2/dist/bundle.mjs"></script>
+                <script src="https://unpkg.com/routerenderer@0.9.4/dist/bundle.mjs"></script>
 
-                <script src="scripts/Activity.mjs" type="module"></script>
+                <script src="/scripts/Activity.mjs" type="module"></script>
             </body>
         </html>
     );
