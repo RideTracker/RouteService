@@ -1,6 +1,6 @@
 declare const RouteRenderer: any;
 
-const response = await fetch("./sessions");
+const response = await fetch(window.location.href + "/sessions");
 const sessions = await response.json();
 
 function render(renderer, context, now) {
