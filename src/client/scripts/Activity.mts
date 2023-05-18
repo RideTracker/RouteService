@@ -32,11 +32,7 @@ const renderer = new RouteRenderer.Renderer({
     elevationGradient: true,
     
     cameraFov: 20,
-    cameraRotation: [ 3, .5, 0 ],
-
-    grid: true,
-    gridPadding: 100000,
-    gridColor: [ 35, 44, 60, 255 ]
+    cameraRotation: [ 3, .5, 0 ]
 });
 
 renderer.registerMouseEvents(canvas);
