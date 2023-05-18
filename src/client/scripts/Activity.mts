@@ -3,12 +3,6 @@ declare const RouteRenderer: any;
 const response = await fetch(window.location.href + "/sessions");
 const sessions = await response.json();
 
-function render(renderer, context, now) {
-    renderer.render(context, now);
-
-    window.requestAnimationFrame((now) => render(renderer, context, now));
-};
-
 const paths = sessions.map((session) => session.locations.map((location, index) => {
     return {
         latitude: location.coords.latitude,
@@ -41,4 +35,20 @@ renderer.setupContext(context);
 
 renderer.setPaths(paths);
 
-render(renderer, context, performance.now());
+let previous = performance.now();
+let rotation = 0;
+
+function render(now) {
+    rotation = (rotation + ((now - previous) / 1000 * 90)) % 360;
+    previous = now;
+
+    renderer.setOptions({
+        cameraRotation: [ 3, .5, (rotation * Math.PI) / 180 ]
+    });
+
+    renderer.render(context, now);
+
+    window.requestAnimationFrame((now) => render(now));
+};
+
+render(performance.now());
