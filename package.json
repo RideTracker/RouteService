@@ -1,24 +1,23 @@
 {
-    "name": "ridetracker-route-service",
+    "name": "@ridetracker/routeservice",
     "version": "0.9.0",
-    "type": "module",
+    "private": true,
     "scripts": {
-        "build": "npm run build:pack && npm run build:sass && npm run build:client && npm run build:server",
-        "build:pack": "node build/pack.js",
-        "build:sass": "sass src/client/styles/global.scss:./.build/styles/global.min.css --style compressed --no-source-map",
-        "build:client": "cd src/client && npx tsc",
-        "build:server": "cd src/server && npx tsc",
-        "clear": "rmdir /s /q .build functions"
+        "start": "npx wrangler dev"
     },
     "author": "Nora Söderlund",
-    "license": "ISC",
     "devDependencies": {
-        "@cloudflare/workers-types": "^4.20230419.0",
+        "@cloudflare/workers-types": "^4.20230518.0",
+        "@types/itty-router-extras": "^0.4.0",
         "@types/react": "^18.2.6",
         "sass": "^1.62.1",
-        "typescript": "^5.0.4"
+        "typescript": "^5.0.4",
+        "wrangler": "^3.0.1"
     },
     "dependencies": {
+        "@ridetracker/discordwebhooksclient": "^0.9.0",
+        "itty-router": "^3.0.12",
+        "itty-router-extras": "^0.4.2",
         "react": "^18.2.0",
         "react-cloudflare-pages-wrapper": "^0.9.4",
         "routerenderer": "^0.9.4"

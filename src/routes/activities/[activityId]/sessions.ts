@@ -1,7 +1,5 @@
-export async function onRequest(context) {
-    const env: Env = context.env;
-
-    const { activityId } = context.params;
+export async function handleActivitySessionsRequest(request: CfRequest, env: Env) {
+    const { activityId } = request.params;
 
     const bucket = await env.BUCKET.get(`activities/${activityId}.json`);
 
