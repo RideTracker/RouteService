@@ -4,22 +4,6 @@ compatibility_date = "2023-04-07"
 usage_model = "bundled"
 node_compat = true
 
-[triggers]
-crons = [ ]
-
-[vars]
-ENVIRONMENT = "dev"
-
-[[ d1_databases ]]
-binding = "DATABASE"
-database_name = "ridetracker-dev"
-database_id = "d61712e5-61d4-44c5-9e31-4573cdd9b3eb"
-
-[[ r2_buckets ]]
-binding = "BUCKET"
-bucket_name = "ridetracker-dev"
-preview_bucket_name = "ridetracker-dev"
-
 [env.production.vars]
 ENVIRONMENT = "production"
 

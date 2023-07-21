@@ -1,4 +1,3 @@
-import { triggerAlarm } from "./controllers/alarms/triggerAlarm";
 import createRouter from "./domains/router";
 
 const router = createRouter();
@@ -17,17 +16,35 @@ async function getRequest(request: any, env: any, context: any) {
 }
 
 export default {
-    async fetch(request: any, env: any, context: any) {
+    async fetch(request: Request, env: Env, context: ExecutionContext) {
         try {
             const response = await getRequest(request, env, context);
 
             if(response.status < 200 || response.status > 299) { 
-                context.waitUntil(new Promise<void>(async (resolve) => {
-                    const text = await response.text();
-
-                    await triggerAlarm(env, "Unsuccessful Status Code Alarm", `A response has returned an unsuccessfull status code.\n \n\`\`\`\n${response.status} ${response.statusText}\n\`\`\`${(text.length)?(`\`\`\`\n${text}\n\`\`\``):("")}\n${request.method} ${request.url}\nRemote Address: || ${request.headers.get("CF-Connecting-IP")} ||`);
-
-                    resolve();
+                context.waitUntil(env.ANALYTICS_SERVICE.fetch(env.ANALYTICS_SERVICE_HOST + "/api/error", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Basic ${env.ANALYTICS_SERVICE_CLIENT_ID}:${env.ANALYTICS_SERVICE_CLIENT_TOKEN}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        error: "SERVER_ERROR",
+                        data: "A response has returned a server error status code.",
+                        service: "RouteService",
+                        environment: env.ENVIRONMENT,
+                        payload: JSON.stringify({
+                            response: {
+                                statusCode: response.status,
+                                statusText: response.statusText,
+                                responseBody: await response.text()
+                            },
+                            request: {
+                                userAgent: request.headers.get("User-Agent"),
+                                resource: `${request.method} ${request.url}`,
+                                remoteAddress: request.headers.get("CF-Connecting-IP")
+                            }
+                        })
+                    })
                 }));
             }
 
@@ -39,8 +56,28 @@ export default {
         }
         catch(error: any) {
             if(error instanceof Error) {
-                if(error.message.startsWith("D1_") && error.cause instanceof Error) {
-                    context.waitUntil(triggerAlarm(env, "D1 Error Alarm", `An error was thrown by D1 during execution.\n \n\`\`\`\n${error.message}\n\`\`\`\`\`\`\n${error.cause.message}\n\`\`\`\n${request.method} ${request.url}\nRemote Address: || ${request.headers.get("CF-Connecting-IP")} ||`));
+                if(error.message.startsWith("D1_")) {
+                    context.waitUntil(env.ANALYTICS_SERVICE.fetch(env.ANALYTICS_SERVICE_HOST + "/api/error", {
+                        method: "POST",
+                        headers: {
+                            "Authorization": `Basic ${env.ANALYTICS_SERVICE_CLIENT_ID}:${env.ANALYTICS_SERVICE_CLIENT_TOKEN}`,
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            error: "D1_ERROR",
+                            data: "An error was thrown by D1 during execution.",
+                            service: "RouteService",
+                            environment: env.ENVIRONMENT,
+                            payload: JSON.stringify({
+                                error,
+                                request: {
+                                    userAgent: request.headers.get("User-Agent"),
+                                    resource: `${request.method} ${request.url}`,
+                                    remoteAddress: request.headers.get("CF-Connecting-IP")
+                                }
+                            })
+                        })
+                    }));
                 
                     return new Response(undefined, {
                         status: 502,
@@ -49,8 +86,28 @@ export default {
                 }
             }
 
-            context.waitUntil(triggerAlarm(env, "Uncaught Error Alarm", `An uncaught error was thrown during a response.\n \n\`\`\`\n${error}\n\`\`\`\n${request.method} ${request.url}\nRemote Address: || ${request.headers.get("CF-Connecting-IP")} ||`));
-            
+            context.waitUntil(env.ANALYTICS_SERVICE.fetch(env.ANALYTICS_SERVICE_HOST + "/api/error", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Basic ${env.ANALYTICS_SERVICE_CLIENT_ID}:${env.ANALYTICS_SERVICE_CLIENT_TOKEN}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    error: "SERVER_ERROR",
+                    data: "An uncaught error was thrown during a response.",
+                    service: "RouteService",
+                    environment: env.ENVIRONMENT,
+                    payload: JSON.stringify({
+                        error,
+                        request: {
+                            userAgent: request.headers.get("User-Agent"),
+                            resource: `${request.method} ${request.url}`,
+                            remoteAddress: request.headers.get("CF-Connecting-IP")
+                        }
+                    })
+                })
+            }));
+
             return new Response(undefined, {
                 status: 500,
                 statusText: "Internal Server Error"
