@@ -42,7 +42,6 @@ jobs:
                 --env ${{ inputs.environment }}
                 --var
                     GITHUB_SHA:${{ github.sha }}
-                    
                     ANALYTICS_SERVICE_HOST:${{ vars.ANALYTICS_SERVICE_HOST }} 
                     ANALYTICS_SERVICE_CLIENT_ID:${{ vars.ANALYTICS_SERVICE_CLIENT_ID }} 
                     ANALYTICS_SERVICE_CLIENT_TOKEN:${{ secrets.ANALYTICS_SERVICE_CLIENT_TOKEN }}
