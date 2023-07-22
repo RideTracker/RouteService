@@ -36,7 +36,7 @@ export default function getSignificantAltitudeChanges(locations: Session["locati
 
         const distance = getDistance(previous.coordinate, location.coords);
 
-        accumulatedDistance += getDistance(locations[locations.length - 1].coords, location.coords);
+        accumulatedDistance += getDistance(locations[index - 1].coords, location.coords);
 
         if(distance < significantDistance) {
             console.log(`Skipping coordinate because ${distance} m is less than 100 m`);
