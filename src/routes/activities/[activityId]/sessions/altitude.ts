@@ -1,4 +1,4 @@
-import getActivitySessions from "../../../../controllers/activities/getActivitySessions";
+import getActivitySessions from "../../../../controllers/activities/sessions/getActivitySessions";
 import { Coordinate } from "../../../../models/Coordinate";
 import { getDistance } from "geolib";
 
