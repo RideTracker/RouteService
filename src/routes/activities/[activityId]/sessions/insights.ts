@@ -33,16 +33,18 @@ export async function handleActivitySessionsInsightsRequest(request: CfRequest, 
             },
 
             polylines: polylines.map((polyline) => {
-                return polyline.speed.map((point) => {
-                    return {
-                        coordinate: {
-                            latitude: point.coordinate.latitude,
-                            longitude: point.coordinate.longitude
-                        },
+                return {
+                    points: polyline.speed.map((point) => {
+                        return {
+                            coordinate: {
+                                latitude: point.coordinate.latitude,
+                                longitude: point.coordinate.longitude
+                            },
 
-                        speed: point.speed
-                    };
-                })
+                            speed: point.speed
+                        };
+                    })
+                };
             })
         },
 
@@ -54,16 +56,18 @@ export async function handleActivitySessionsInsightsRequest(request: CfRequest, 
             },
 
             polylines: polylines.map((polyline) => {
-                return polyline.altitude.map((point) => {
-                    return {
-                        coordinate: {
-                            latitude: point.coordinate.latitude,
-                            longitude: point.coordinate.longitude
-                        },
+                return {
+                    points: polyline.altitude.map((point) => {
+                        return {
+                            coordinate: {
+                                latitude: point.coordinate.latitude,
+                                longitude: point.coordinate.longitude
+                            },
 
-                        altitude: point.altitude
-                    };
-                })
+                            altitude: point.altitude
+                        };
+                    })
+                };
             })
         },
 
