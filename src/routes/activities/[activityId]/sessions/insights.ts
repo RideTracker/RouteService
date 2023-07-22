@@ -71,15 +71,19 @@ export async function handleActivitySessionsInsightsRequest(request: CfRequest, 
             })
         },
 
-        battery: polylines.map((polyline) => {
-            return polyline.battery.map((battery) => {
+        battery: {
+            polylines: polylines.map((polyline) => {
                 return {
-                    batteryLevel: battery.batteryLevel,
-                    batteryState: battery.batteryState,
-                    lowPowerMode: battery.lowPowerMode,
-                    timestamp: battery.timestamp
+                    points: polyline.battery.map((battery) => {
+                        return {
+                            batteryLevel: battery.batteryLevel,
+                            batteryState: battery.batteryState,
+                            lowPowerMode: battery.lowPowerMode,
+                            timestamp: battery.timestamp
+                        };
+                    })
                 };
             })
-        })
+        }
     });
 };
