@@ -4,6 +4,11 @@ compatibility_date = "2023-04-07"
 usage_model = "unbound"
 node_compat = true
 
+[env.production]
+services = [
+    { binding = "ANALYTICS_SERVICE", service = "analytics-service-production" }
+]
+
 [env.production.vars]
 ENVIRONMENT = "production"
 
@@ -15,6 +20,11 @@ database_id = "4cb96598-71ce-47f5-b556-9ef1bfca42a1"
 [[ env.production.r2_buckets ]]
 binding = "BUCKET"
 bucket_name = "ridetracker-production"
+
+[env.staging]
+services = [
+    { binding = "ANALYTICS_SERVICE", service = "analytics-service-staging" }
+]
 
 [env.staging.vars]
 ENVIRONMENT = "staging"
