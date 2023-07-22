@@ -11,10 +11,13 @@ export default function getSignificantAltitudeChanges(locations: Session["locati
     const points: {
         coordinate: Coordinate;
         altitude: number;
+        distance: number;
     }[] = [];
 
     const start = locations[0];
     const end = locations[1];
+
+    let accumulatedDistance = 0;
 
     points.push({
         coordinate: {
@@ -22,7 +25,9 @@ export default function getSignificantAltitudeChanges(locations: Session["locati
             longitude: start.coords.longitude
         },
 
-        altitude: start.coords.altitude
+        altitude: start.coords.altitude,
+
+        distance: accumulatedDistance
     });
 
     for(let index = 0; index < locations.length - 1; index++) {
@@ -30,6 +35,8 @@ export default function getSignificantAltitudeChanges(locations: Session["locati
         const previous = points[points.length - 1];
 
         const distance = getDistance(previous.coordinate, location.coords);
+
+        accumulatedDistance += getDistance(locations[locations.length - 1].coords, location.coords);
 
         if(distance < significantDistance) {
             console.log(`Skipping coordinate because ${distance} m is less than 100 m`);
@@ -57,18 +64,28 @@ export default function getSignificantAltitudeChanges(locations: Session["locati
                 longitude: location.coords.longitude
             },
 
-            altitude: location.coords.altitude
+            altitude: location.coords.altitude,
+
+            distance: accumulatedDistance
+        });
+    }
+    
+    {
+        const location = locations[locations.length - 1];
+
+        accumulatedDistance += getDistance(locations[locations.length - 1].coords, location.coords);
+
+        points.push({
+            coordinate: {
+                latitude: end.coords.latitude,
+                longitude: end.coords.longitude
+            },
+
+            altitude: end.coords.altitude,
+
+            distance: accumulatedDistance
         });
     }
         
-    points.push({
-        coordinate: {
-            latitude: end.coords.latitude,
-            longitude: end.coords.longitude
-        },
-
-        altitude: end.coords.altitude
-    });
-
     return points;
 };

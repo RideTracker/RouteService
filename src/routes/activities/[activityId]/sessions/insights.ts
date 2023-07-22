@@ -32,8 +32,10 @@ export async function handleActivitySessionsInsightsRequest(request: CfRequest, 
                 maximum: speedStats.maximum
             },
 
-            polylines: polylines.map((polyline) => {
+            polylines: polylines.map((polyline, index) => {
                 return {
+                    distanceOffset: polylines.slice(0, index).reduce((accumulated, polyline) => accumulated + polyline.speed[polyline.speed.length - 1].distance, 0),
+
                     points: polyline.speed.map((point) => {
                         return {
                             coordinate: {
@@ -55,8 +57,10 @@ export async function handleActivitySessionsInsightsRequest(request: CfRequest, 
                 maximum: altitudeStats.maximum
             },
 
-            polylines: polylines.map((polyline) => {
+            polylines: polylines.map((polyline, index) => {
                 return {
+                    distanceOffset: polylines.slice(0, index).reduce((accumulated, polyline) => accumulated + polyline.speed[polyline.speed.length - 1].distance, 0),
+                    
                     points: polyline.altitude.map((point) => {
                         return {
                             coordinate: {
