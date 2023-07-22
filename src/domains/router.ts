@@ -4,14 +4,14 @@ import { handleActivitySessionsRequest } from "../routes/activities/[activityId]
 import { withAuth } from "@ridetracker/authservice";
 import { handleActivitySessionsAltitudeRequest } from "../routes/activities/[activityId]/sessions/altitude";
 import { handleActivitySessionsSpeedRequest } from "../routes/activities/[activityId]/sessions/speed";
+import { handleActivitySessionsInsightsRequest } from "../routes/activities/[activityId]/sessions/insights";
 
 export default function createRouter() {
     const router = ThrowableRouter();
     
     router.get("/activities/:activityId/route", withAuth("user", "DATABASE"), withParams, handleActivityRouteRequest);
     router.get("/api/activities/:activityId/sessions", withAuth("user", "DATABASE"), withParams, handleActivitySessionsRequest);
-    router.get("/api/activities/:activityId/sessions/altitude", withAuth("user", "DATABASE"), withParams, handleActivitySessionsAltitudeRequest);
-    router.get("/api/activities/:activityId/sessions/speed", withAuth("user", "DATABASE"), withParams, handleActivitySessionsSpeedRequest);
+    router.get("/api/activities/:activityId/sessions/insights", withAuth("user", "DATABASE"), withParams, handleActivitySessionsInsightsRequest);
 
     return router;
 };
