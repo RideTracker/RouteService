@@ -1,5 +1,6 @@
 import getActivitySessions from "../../../../controllers/activities/getActivitySessions";
 import { Coordinate } from "../../../../models/Coordinate";
+import { getDistance } from "geolib";
 
 export async function handleActivitySessionsSpeedRequest(request: CfRequest, env: Env) {
     const { activityId } = request.params;
@@ -33,6 +34,15 @@ export async function handleActivitySessionsSpeedRequest(request: CfRequest, env
             const location = session.locations[index];
             const previous = points[points.length - 1];
 
+            const distance = getDistance(previous.coordinate, location.coords);
+
+            // TODO: change to be a percentage of overall distance
+            if(distance < 100) {
+                console.log(`Skipping coordinate because ${distance} m is less than 100 m`);
+
+                continue;
+            }
+            
             const difference = Math.abs(location.coords.speed - previous.speed);
 
             if(difference < significantChange) {
