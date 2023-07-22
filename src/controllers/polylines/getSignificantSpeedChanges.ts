@@ -38,7 +38,7 @@ export default function getSignificantSpeedChanges(locations: Session["locations
         accumulatedDistance += getDistance(locations[index - 1].coords, location.coords);
 
         if(distance < significantDistance) {
-            console.log(`Skipping coordinate because ${distance} m is less than 100 m`);
+            //console.log(`Skipping coordinate because ${distance} m is less than 100 m`);
 
             continue;
         }
@@ -46,7 +46,7 @@ export default function getSignificantSpeedChanges(locations: Session["locations
         const difference = Math.abs(location.coords.speed - previous.speed);
 
         if(difference < significantChange) {
-            console.log(`Skipping speed change because ${difference} is less than significant change of ${significantChange}`);
+            //console.log(`Skipping speed change because ${difference} is less than significant change of ${significantChange}`);
 
             continue;
         }
@@ -66,7 +66,7 @@ export default function getSignificantSpeedChanges(locations: Session["locations
     {
         const location = locations[locations.length - 1];
 
-        accumulatedDistance += getDistance(locations[locations.length - 1].coords, location.coords);
+        accumulatedDistance += getDistance(locations[locations.length - 2].coords, location.coords);
 
         points.push({
             coordinate: {

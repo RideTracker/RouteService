@@ -39,7 +39,7 @@ export default function getSignificantAltitudeChanges(locations: Session["locati
         accumulatedDistance += getDistance(locations[index - 1].coords, location.coords);
 
         if(distance < significantDistance) {
-            console.log(`Skipping coordinate because ${distance} m is less than 100 m`);
+            //console.log(`Skipping coordinate because ${distance} m is less than 100 m`);
 
             continue;
         }
@@ -47,13 +47,13 @@ export default function getSignificantAltitudeChanges(locations: Session["locati
         const difference = Math.abs(location.coords.altitude - previous.altitude);
 
         if(difference < significantChange) {
-            console.log(`Skipping altitude change because ${difference} is less than significant change of ${significantChange}`);
+            //console.log(`Skipping altitude change because ${difference} is less than significant change of ${significantChange}`);
 
             continue;
         }
 
         if(difference < location.coords.altitudeAccuracy) {
-            console.log(`Skipping altitude elevation because ${difference} is less than accuracy of ${location.coords.altitudeAccuracy}`);
+            //console.log(`Skipping altitude elevation because ${difference} is less than accuracy of ${location.coords.altitudeAccuracy}`);
 
             continue;
         }
@@ -73,7 +73,7 @@ export default function getSignificantAltitudeChanges(locations: Session["locati
     {
         const location = locations[locations.length - 1];
 
-        accumulatedDistance += getDistance(locations[locations.length - 1].coords, location.coords);
+        accumulatedDistance += getDistance(locations[locations.length - 2].coords, location.coords);
 
         points.push({
             coordinate: {
