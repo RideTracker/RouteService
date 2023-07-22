@@ -2,8 +2,8 @@ import createRouter from "./domains/router";
 
 const router = createRouter();
 
-async function getRequest(request: any, env: any, context: any) {
-    const response: Response = await router.handle(request, env);
+async function getRequest(request: Request, env: Env, context: ExecutionContext) {
+    const response: Response = await router.handle(request, env, context);
 
     if(!response) {
         return new Response(undefined, {
