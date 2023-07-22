@@ -14,6 +14,9 @@ export default function getSignificantSpeedChanges(locations: Session["locations
         distance: number;
     }[] = [];
 
+    if(!locations.length)
+        return [];
+
     const start = locations[0];
     const end = locations[1];
 
@@ -63,7 +66,7 @@ export default function getSignificantSpeedChanges(locations: Session["locations
         });
     }
     
-    {
+    if(locations.length > 1) {
         const location = locations[locations.length - 1];
 
         accumulatedDistance += getDistance(locations[locations.length - 2].coords, location.coords);
