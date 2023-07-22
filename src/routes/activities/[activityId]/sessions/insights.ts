@@ -43,7 +43,9 @@ export async function handleActivitySessionsInsightsRequest(request: CfRequest, 
                                 longitude: point.coordinate.longitude
                             },
 
-                            speed: point.speed
+                            speed: point.speed,
+
+                            distance: point.distance
                         };
                     })
                 };
@@ -68,7 +70,9 @@ export async function handleActivitySessionsInsightsRequest(request: CfRequest, 
                                 longitude: point.coordinate.longitude
                             },
 
-                            altitude: point.altitude
+                            altitude: point.altitude,
+
+                            distance: point.distance
                         };
                     })
                 };
