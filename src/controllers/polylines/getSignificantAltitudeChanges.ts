@@ -33,7 +33,7 @@ export default function getSignificantAltitudeChanges(locations: Session["locati
         distance: accumulatedDistance
     });
 
-    for(let index = 0; index < locations.length - 1; index++) {
+    for(let index = 1; index < locations.length - 1; index++) {
         const location = locations[index];
         const previous = points[points.length - 1];
 
