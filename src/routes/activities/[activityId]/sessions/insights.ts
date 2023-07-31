@@ -21,7 +21,7 @@ export async function handleActivitySessionsInsightsRequest(request: CfRequest, 
             return {
                 speed: getSignificantSpeedChanges(session.locations),
                 altitude: getSignificantAltitudeChanges(session.locations),
-                battery: session.battery
+                battery: session.battery ?? []
             };
         });
 
@@ -38,7 +38,7 @@ export async function handleActivitySessionsInsightsRequest(request: CfRequest, 
 
                 polylines: polylines.map((polyline, index) => {
                     return {
-                        distanceOffset: polylines.slice(0, index).reduce((accumulated, polyline) => accumulated + polyline.speed[polyline.speed.length - 1].distance, 0),
+                        distanceOffset: polylines.slice(0, index).reduce((accumulated, polyline) => accumulated + (polyline.speed[polyline.speed.length - 1]?.distance ?? 0), 0),
 
                         points: polyline.speed.map((point) => {
                             return {
@@ -65,7 +65,7 @@ export async function handleActivitySessionsInsightsRequest(request: CfRequest, 
 
                 polylines: polylines.map((polyline, index) => {
                     return {
-                        distanceOffset: polylines.slice(0, index).reduce((accumulated, polyline) => accumulated + polyline.speed[polyline.speed.length - 1].distance, 0),
+                        distanceOffset: polylines.slice(0, index).reduce((accumulated, polyline) => accumulated + (polyline.speed[polyline.speed.length - 1]?.distance ?? 0), 0),
                         
                         points: polyline.altitude.map((point) => {
                             return {
