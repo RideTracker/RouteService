@@ -2,7 +2,7 @@ import getActivitySessions from "../../../../controllers/activities/sessions/get
 import { Coordinate } from "../../../../models/Coordinate";
 import { getDistance } from "geolib";
 
-export async function handleActivitySessionsAltitudeRequest(request: CfRequest, env: Env) {
+export async function handleActivitySessionsSpeedRequest(request: CfRequest, env: Env) {
     const { activityId } = request.params;
 
     const sessions = await getActivitySessions(env.BUCKET, activityId);
@@ -10,12 +10,12 @@ export async function handleActivitySessionsAltitudeRequest(request: CfRequest, 
     if(!sessions)
         return Response.json({ success: false });
 
-    const significantChange = 1;
+    const significantChange = 4;
 
     const polylines = sessions.map((session) => {
         const points: {
             coordinate: Coordinate;
-            altitude: number;
+            speed: number;
         }[] = [];
 
         const start = session.locations[0];
@@ -27,7 +27,7 @@ export async function handleActivitySessionsAltitudeRequest(request: CfRequest, 
                 longitude: start.coords.longitude
             },
 
-            altitude: start.coords.altitude
+            speed: start.coords.speed
         });
 
         for(let index = 0; index < session.locations.length - 1; index++) {
@@ -42,17 +42,11 @@ export async function handleActivitySessionsAltitudeRequest(request: CfRequest, 
 
                 continue;
             }
-
-            const difference = Math.abs(location.coords.altitude - previous.altitude);
-
-            if(difference < location.coords.altitudeAccuracy) {
-                console.log(`Skipping altitude elevation because ${difference} is less than accuracy of ${location.coords.altitudeAccuracy}`);
-
-                continue;
-            }
+            
+            const difference = Math.abs(location.coords.speed - previous.speed);
 
             if(difference < significantChange) {
-                console.log(`Skipping altitude elevation because ${difference} is less than significant change of ${significantChange}`);
+                console.log(`Skipping speed change because ${difference} is less than significant change of ${significantChange}`);
 
                 continue;
             }
@@ -63,7 +57,7 @@ export async function handleActivitySessionsAltitudeRequest(request: CfRequest, 
                     longitude: location.coords.longitude
                 },
 
-                altitude: location.coords.altitude
+                speed: location.coords.speed
             });
         }
             
@@ -73,23 +67,23 @@ export async function handleActivitySessionsAltitudeRequest(request: CfRequest, 
                 longitude: end.coords.longitude
             },
 
-            altitude: end.coords.altitude
+            speed: end.coords.speed
         });
 
         return points;
     });
 
-    const altitudes = polylines.flatMap((points) => points.map((point) => point.altitude));
+    const speeds = polylines.flatMap((points) => points.map((point) => point.speed));
 
-    const sum = altitudes.reduce((accumulated, altitude) => accumulated + altitude, 0);
-    const average = sum / altitudes.length;
+    const sum = speeds.reduce((accumulated, speed) => accumulated + speed, 0);
+    const average = sum / speeds.length;
 
     return Response.json({
         success: true,
 
-        altitudes: {
-            minimum: Math.min(...altitudes),
-            maximum: Math.max(...altitudes),
+        speeds: {
+            minimum: Math.min(...speeds),
+            maximum: Math.max(...speeds),
             average
         },
 
@@ -102,7 +96,7 @@ export async function handleActivitySessionsAltitudeRequest(request: CfRequest, 
                             longitude: point.coordinate.longitude
                         },
 
-                        altitude: point.altitude
+                        speed: point.speed
                     };
                 })
             };

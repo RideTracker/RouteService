@@ -1,8 +1,13 @@
 name = "ridetracker-route-service"
 main = "src/index.ts"
 compatibility_date = "2023-04-07"
-usage_model = "bundled"
+usage_model = "unbound"
 node_compat = true
+
+[env.production]
+services = [
+    { binding = "ANALYTICS_SERVICE", service = "analytics-service-production" }
+]
 
 [env.production.vars]
 ENVIRONMENT = "production"
@@ -16,13 +21,18 @@ database_id = "4cb96598-71ce-47f5-b556-9ef1bfca42a1"
 binding = "BUCKET"
 bucket_name = "ridetracker-production"
 
+[env.staging]
+services = [
+    { binding = "ANALYTICS_SERVICE", service = "analytics-service-staging" }
+]
+
 [env.staging.vars]
 ENVIRONMENT = "staging"
 
 [[ env.staging.d1_databases ]]
 binding = "DATABASE"
 database_name = "ridetracker-staging"
-database_id = "361813f2-1a83-4c3d-9df1-204fc7093b6f"
+database_id = "fc97d7d6-9958-4d2c-81d8-6fb6522cd862"
 
 [[ env.staging.r2_buckets ]]
 binding = "BUCKET"

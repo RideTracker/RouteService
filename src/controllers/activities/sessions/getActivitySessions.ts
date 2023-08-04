@@ -1,4 +1,4 @@
-import { Session } from "../../models/Session";
+import { Session } from "../../../models/Session";
 
 export default async function getActivitySessions(bucket: R2Bucket, activityId: string): Promise<Session[] | null> {
     const activity = await bucket.get(`activities/${activityId}.json`);
