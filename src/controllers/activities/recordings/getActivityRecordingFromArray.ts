@@ -19,6 +19,8 @@ export default function getActivityRecordingFromArray(sessions: RecordingV1Sessi
             return {
                 id: session.id,
 
+                // Significant changes were not calculated prior to RideTrackerApp-0.9.3.
+
                 coordinates: session.locations.filter((location, index, array) => {
                     if(index === 0 || index === array.length - 1)
                         return true;
@@ -105,7 +107,7 @@ export default function getActivityRecordingFromArray(sessions: RecordingV1Sessi
                     if(index === 0 || index === array.length - 1)
                         return true;
 
-                    if(Math.abs(location.coords.speed - speed) < 1)
+                    if(Math.abs(location.coords.speed - speed) < (1 / 3.6))
                         return false;
 
                     speed = location.coords.speed;
