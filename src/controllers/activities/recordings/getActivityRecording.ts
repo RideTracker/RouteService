@@ -9,7 +9,7 @@ export default async function getActivityRecording(bucket: R2Bucket, activityId:
 
     const result: any = await response.json();
 
-    const version = (Array.isArray(result))?(1):(result.version);
+    const version = (result.length === undefined)?(1):(result.version);
 
     // We do not, ever, want to rewrite the original upload file;
     // instead, upgrade the recordings each time it has to be reprocessed;
