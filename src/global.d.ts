@@ -9,6 +9,8 @@ declare type Env = {
     ANALYTICS_SERVICE_HOST: string;
     ANALYTICS_SERVICE_CLIENT_ID: string;
     ANALYTICS_SERVICE_CLIENT_TOKEN: string;
+
+    GOOGLE_MAPS_API_KEY: string;
 };
 
 declare type CfRequest = {
