@@ -21,8 +21,11 @@ export default async function processActivityRecordingPolylines(env: Env, activi
             for(let index = 1; index < session.coordinates.length - 1; index++) {
                 distance += getDistance(session.coordinates[index - 1].coordinate, session.coordinates[index].coordinate, session.coordinates[index].accuracy);
 
-                if(distance > 20)
+                if(distance > 20) {
+                    distance = 0;
+                    
                     significantCoordinates.push(session.coordinates[index].coordinate);
+                }
             }
 
             if(session.coordinates.length > 2)
