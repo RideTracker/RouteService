@@ -2,7 +2,7 @@ import { Recording } from "@ridetracker/ridetrackertypes";
 import getActivityRecordingFromArray from "./getActivityRecordingFromArray";
 
 export default async function getActivityRecording(bucket: R2Bucket, activityId: string): Promise<Recording | null> {
-    const response = await bucket.get(`/activities/${activityId}.json`);
+    const response = await bucket.get(`activities/${activityId}.json`);
 
     if(!response)
         return null;
