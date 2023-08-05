@@ -16,18 +16,18 @@ export async function handleActivityProcessRequest(request: CfRequest, env: Env,
     const activity = await getActivityById(env.DATABASE, activityId);
 
     if(!activity)
-        return Response.json({ success: false });
+        return Response.json({ success: false, message: "Failed to get activity by id." });
 
     if(activity.status === "deleted")
-        return Response.json({ success: false });
+        return Response.json({ success: false, message: "Activity is deleted." });
     
     const recording = await getActivityRecording(env.BUCKET, activity.id);
 
     if(!recording)
-        return Response.json({ success: false });
+        return Response.json({ success: false, message: "Failed to parse recording." });
 
     if(!recording.sessions.length)
-        return Response.json({ success: false });
+        return Response.json({ success: false, message: "Recording has no sessions." });
 
     // In the event that we're reprocessing, delete activity summaries
     await deleteActivitySummaries(env.DATABASE, activity.id);
