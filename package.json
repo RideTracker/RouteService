@@ -22,7 +22,7 @@
         "@ridetracker/discordwebhooksclient": "^0.9.0",
         "geolib": "^3.3.4",
         "itty-router": "^3.0.12",
-        "itty-router-extras": "^0.4.2",
+        "itty-router-extras": "^0.4.5",
         "react": "^18.2.0",
         "react-cloudflare-pages-wrapper": "^0.9.4",
         "routerenderer": "^0.9.4"
