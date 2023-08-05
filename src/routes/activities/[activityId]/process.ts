@@ -49,5 +49,9 @@ export async function handleActivityProcessRequest(request: CfRequest, env: Env,
         updateActivityStatus(env.DATABASE, activity.id, "processed")
     ]);
 
-    return Response.json({ success: true });
+    return Response.json({
+        success: true,
+
+        recording
+    });
 };

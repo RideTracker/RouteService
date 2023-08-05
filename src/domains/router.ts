@@ -2,8 +2,6 @@ import { ThrowableRouter, withParams } from "itty-router-extras";
 import { handleActivityRouteRequest } from "../routes/activities/[activityId]/route";
 import { handleActivitySessionsRequest } from "../routes/activities/[activityId]/sessions";
 import { withAuth } from "@ridetracker/authservice";
-import { handleActivitySessionsAltitudeRequest } from "../routes/activities/[activityId]/sessions/altitude";
-import { handleActivitySessionsSpeedRequest } from "../routes/activities/[activityId]/sessions/speed";
 import { handleActivitySessionsInsightsRequest } from "../routes/activities/[activityId]/sessions/insights";
 import { handleActivityProcessRequest } from "../routes/activities/[activityId]/process";
 
