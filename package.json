@@ -14,7 +14,7 @@
         "@types/react": "^18.2.6",
         "sass": "^1.62.1",
         "typescript": "^5.0.4",
-        "wrangler": "^3.0.1"
+        "wrangler": "^3.6.0"
     },
     "dependencies": {
         "@googlemaps/polyline-codec": "^1.0.28",
